@@ -18,20 +18,38 @@ public class SecurityConfig {
     public static final String USER = "user";
     private final JwtConverter jwtConverter;
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests((authorizationManagerRequestMatcherRegistry) ->
+//                authorizationManagerRequestMatcherRegistry
+//                        .requestMatchers(HttpMethod.GET, "/api/hello").permitAll()
+//                        .requestMatchers(HttpMethod.GET, "/api/admin/**").hasRole(ADMIN)
+//                        .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole(USER)
+//                        .requestMatchers(HttpMethod.GET, "/api/admin-and-user/**").hasAnyRole(ADMIN,USER).anyRequest().authenticated());
+//
+//        http.sessionManagement(httpSecuritySessionManagementConfigurer ->
+//                httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+//
+//        http.oauth2ResourceServer(oauth2 ->
+//                oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter)));
+//
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authorizationManagerRequestMatcherRegistry) ->
-                authorizationManagerRequestMatcherRegistry
-                        .requestMatchers(HttpMethod.GET, "/api/hello").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/admin/**").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole(USER)
-                        .requestMatchers(HttpMethod.GET, "/api/admin-and-user/**").hasAnyRole(ADMIN,USER).anyRequest().authenticated());
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/hello").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole(ADMIN)
+                .antMatchers(HttpMethod.GET, "/api/user/**").hasRole(USER)
+                .antMatchers(HttpMethod.GET, "/api/admin-and-user/**").hasAnyRole(ADMIN, USER)
+                .anyRequest().authenticated();
 
-        http.sessionManagement(httpSecuritySessionManagementConfigurer ->
-                httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
-        http.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter)));
+        http.oauth2ResourceServer()
+                .jwt().jwtAuthenticationConverter(jwtConverter);
 
         return http.build();
     }

@@ -1,6 +1,5 @@
 package com.anshuman.oauthserver.security;
 
-import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -36,7 +35,7 @@ public class JwtConverter  implements Converter<Jwt, AbstractAuthenticationToken
      * @return the AbstractAuthenticationToken
      */
     @Override
-    public AbstractAuthenticationToken convert(@Nonnull Jwt jwt) {
+    public AbstractAuthenticationToken convert(Jwt jwt) {
         log.debug("Received JWT token with subject: {}, headers: {}, claims: {}, audience: {}, id: {}, issuer: {}, expires: {}",
                 jwt.getSubject(), jwt.getHeaders(), jwt.getClaims(), jwt.getAudience(), jwt.getId(), jwt.getIssuer(), jwt.getExpiresAt());
 
