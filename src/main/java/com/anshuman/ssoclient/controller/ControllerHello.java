@@ -1,4 +1,4 @@
-package com.anshuman.oauthserver.controller;
+package com.anshuman.ssoclient.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

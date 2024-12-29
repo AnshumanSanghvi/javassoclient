@@ -1,4 +1,4 @@
-package com.anshuman.oauthserver.security;
+package com.anshuman.ssoclient.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
@@ -42,7 +42,9 @@ public class JwtConverter  implements Converter<Jwt, AbstractAuthenticationToken
         Stream<GrantedAuthority> grantedAuthorityStream = jwtGrantedAuthoritiesConverter.convert(jwt).stream();
         Stream<? extends GrantedAuthority> resourceRolesStream = extractResourceRoles(jwt).stream();
         Collection<GrantedAuthority> authorities = Stream.concat(grantedAuthorityStream, resourceRolesStream).collect(Collectors.toSet());
+        log.debug("Extracted from token: Authorities: {}", authorities);
         String principalClaim = getPrincipalClaimName(jwt);
+        log.debug("Extracted from token: Principal: {}", principalClaim);
         return new JwtAuthenticationToken(jwt, authorities, principalClaim);
     }
 
@@ -78,6 +80,10 @@ public class JwtConverter  implements Converter<Jwt, AbstractAuthenticationToken
         return resourceRoles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
+    }
+
+    private String getUsername(Jwt jwt) {
+        return jwt.getClaim("preferred_username");
     }
 
 }

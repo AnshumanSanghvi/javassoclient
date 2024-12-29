@@ -1,4 +1,4 @@
-package com.anshuman.oauthserver.security;
+package com.anshuman.ssoclient.security;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,4 +1,4 @@
-package com.anshuman.oauthserver;
+package com.anshuman.ssoclient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
